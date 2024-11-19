@@ -18,6 +18,7 @@ import UnauthPage from "./pages/unauth-page";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
+import Loading from "./components/common/Loading";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -29,12 +30,7 @@ function App() {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  if (isLoading)
-    return (
-      <div className="flex justify-center items-center h-screen">
-        Loading...
-      </div>
-    );
+  if (isLoading) return <Loading />;
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">

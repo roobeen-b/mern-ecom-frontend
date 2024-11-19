@@ -18,10 +18,19 @@ import { logoutUser } from "@/store/auth-slice";
 import { toast } from "@/hooks/use-toast";
 
 function MenuItems() {
+  const navigate = useNavigate();
+
+  function handleNavigation(menuItem) {
+    navigate(menuItem.path);
+  }
   return (
     <nav className="flex flex-col lg:flex-row gap-4 font-semibold">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
-        <Label key={menuItem.id} className="cursor-pointer">
+        <Label
+          key={menuItem.id}
+          className="cursor-pointer"
+          onClick={() => handleNavigation(menuItem)}
+        >
           {menuItem.label}
         </Label>
       ))}

@@ -17,7 +17,7 @@ function AdminProductTile({
           <img
             src={product?.image}
             alt={product?.title}
-            className="w-full h-[150px] object-cover rounded-t-lg"
+            className="w-full h-[150px] object-contain rounded-t-lg"
           />
         </div>
         <CardContent>
