@@ -10,6 +10,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { sortOptions } from "@/config";
+import { toast } from "@/hooks/use-toast";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
 import {
   fetchAllFilteredProducts,
   getProductDetails,
@@ -37,6 +39,8 @@ const ShoppingListings = () => {
   const { productList, productDetails } = useSelector(
     (state) => state.shopProducts
   );
+
+  const { user } = useSelector((state) => state.auth);
 
   const [sort, setSort] = useState(null);
   const [filters, setFilters] = useState({});
@@ -93,14 +97,27 @@ const ShoppingListings = () => {
     }
   }, [filters]);
 
-  useEffect(() => {
-    if (productDetails !== null) {
-      setOpenProductDetailsDialog(true);
-    }
-  }, [productDetails]);
-
   function handleProductDetails(productId) {
-    dispatch(getProductDetails(productId));
+    dispatch(getProductDetails(productId)).then(() =>
+      setOpenProductDetailsDialog(true)
+    );
+  }
+
+  function handleAddToCart(currentProductId) {
+    dispatch(
+      addToCart({
+        userId: user?.id,
+        productId: currentProductId,
+        quantity: 1,
+      })
+    ).then((res) => {
+      if (res?.payload?.success) {
+        toast({
+          title: res?.payload?.message,
+        });
+        dispatch(fetchCartItems(user?.id));
+      }
+    });
   }
 
   return (
@@ -110,7 +127,9 @@ const ShoppingListings = () => {
         <div className="flex justify-between items-center">
           <h1 className="text-xl font-extrabold">All Products</h1>
           <div className="flex items-center gap-3">
-            <span className="text-muted-foreground">10 Products</span>
+            <span className="text-muted-foreground">
+              {productList?.length} Products
+            </span>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -141,11 +160,12 @@ const ShoppingListings = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 p-4">
           {productList && productList.length > 0 ? (
             productList.map((product) => (
-              <div
-                key={product._id}
-                onClick={() => handleProductDetails(product._id)}
-              >
-                <ShoppingProductTile product={product} />
+              <div key={product._id}>
+                <ShoppingProductTile
+                  product={product}
+                  handleProductDetails={handleProductDetails}
+                  handleAddToCart={handleAddToCart}
+                />
               </div>
             ))
           ) : (

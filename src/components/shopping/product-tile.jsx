@@ -3,10 +3,14 @@ import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardFooter } from "../ui/card";
 
-const ShoppingProductTile = ({ product }) => {
+const ShoppingProductTile = ({
+  product,
+  handleProductDetails,
+  handleAddToCart,
+}) => {
   return (
     <Card className="w-full max-w-sm mx-auto cursor-pointer">
-      <div>
+      <div onClick={() => handleProductDetails(product._id)}>
         <div className="relative overflow-hidden">
           <img
             src={product?.image}
@@ -44,16 +48,21 @@ const ShoppingProductTile = ({ product }) => {
             ) : null}
           </div>
         </CardContent>
-        <CardFooter>
-          {product?.totalStock === 0 ? (
-            <Button className="w-full opacity-60 cursor-not-allowed">
-              Out of stock
-            </Button>
-          ) : (
-            <Button className="w-full">Add to cart</Button>
-          )}
-        </CardFooter>
       </div>
+      <CardFooter>
+        {product?.totalStock === 0 ? (
+          <Button className="w-full opacity-60 cursor-not-allowed">
+            Out of stock
+          </Button>
+        ) : (
+          <Button
+            className="w-full"
+            onClick={() => handleAddToCart(product?._id)}
+          >
+            Add to cart
+          </Button>
+        )}
+      </CardFooter>
     </Card>
   );
 };

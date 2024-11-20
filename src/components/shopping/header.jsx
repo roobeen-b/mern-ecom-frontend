@@ -16,6 +16,9 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "@/store/auth-slice";
 import { toast } from "@/hooks/use-toast";
+import UserCartWrapper from "./cart-wrapper";
+import { useEffect, useState } from "react";
+import { fetchCartItems } from "@/store/shop/cart-slice";
 
 function MenuItems() {
   const navigate = useNavigate();
@@ -41,7 +44,11 @@ function MenuItems() {
 function HeaderRightContent() {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shopCart);
+
   const navigate = useNavigate();
+
+  const [openCartSidebar, setOpenCartSidebar] = useState(false);
 
   function handleLogout() {
     dispatch(logoutUser()).then((res) => {
@@ -52,12 +59,34 @@ function HeaderRightContent() {
       }
     });
   }
+
+  useEffect(() => {
+    dispatch(fetchCartItems(user?.id));
+  }, [dispatch]);
+
   return (
     <div className="flex flex-col lg:flex-row lg:items-center gap-4">
-      <Button variant="outline" size="icon" className="relative">
+      <Button
+        variant="outline"
+        size="icon"
+        className="relative"
+        onClick={() => setOpenCartSidebar(true)}
+      >
         <ShoppingCart className="w-6 h-6" />
         <span className="sr-only">User cart</span>
       </Button>
+      <Sheet
+        open={openCartSidebar}
+        onOpenChange={() => setOpenCartSidebar(false)}
+      >
+        <UserCartWrapper
+          cartItems={
+            cartItems && cartItems.items && cartItems.items.length > 0
+              ? cartItems.items
+              : []
+          }
+        />
+      </Sheet>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Avatar className="bg-black cursor-pointer">

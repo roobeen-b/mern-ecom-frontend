@@ -6,8 +6,30 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { StarIcon } from "lucide-react";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart, fetchCartItems } from "@/store/shop/cart-slice";
+import { toast } from "@/hooks/use-toast";
 
 const ShoppingProductDetails = ({ open, setOpen, productDetails }) => {
+  const dispatch = useDispatch();
+  const { user } = useSelector((state) => state.auth);
+
+  function handleAddToCart(currentProductId) {
+    dispatch(
+      addToCart({
+        userId: user?.id,
+        productId: currentProductId,
+        quantity: 1,
+      })
+    ).then((res) => {
+      if (res?.payload?.success) {
+        toast({
+          title: res?.payload?.message,
+        });
+        dispatch(fetchCartItems(user?.id));
+      }
+    });
+  }
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogContent className="grid grid-cols-2 gap-8 sm:p-12 max-w-[90vw] sm:max-w-[80vw] lg:max-w-[70vw">
@@ -55,7 +77,12 @@ const ShoppingProductDetails = ({ open, setOpen, productDetails }) => {
                 Out of Stock
               </Button>
             ) : (
-              <Button className="w-full">Add to Cart</Button>
+              <Button
+                className="w-full"
+                onClick={() => handleAddToCart(productDetails?._id)}
+              >
+                Add to Cart
+              </Button>
             )}
           </div>
           <Separator />
