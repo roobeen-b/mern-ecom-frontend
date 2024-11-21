@@ -47,7 +47,7 @@ const ShoppingListings = () => {
   const [openProductDetailsDialog, setOpenProductDetailsDialog] =
     useState(false);
 
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     if (filters !== null && sort !== null) {

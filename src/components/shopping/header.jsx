@@ -24,8 +24,18 @@ function MenuItems() {
   const navigate = useNavigate();
 
   function handleNavigation(menuItem) {
+    sessionStorage.removeItem("filters");
+    const newFilters =
+      menuItem.id !== "home"
+        ? {
+            category: [menuItem.id],
+          }
+        : null;
+
+    sessionStorage.setItem("filters", JSON.stringify(newFilters));
     navigate(menuItem.path);
   }
+
   return (
     <nav className="flex flex-col lg:flex-row gap-4 font-semibold">
       {shoppingViewHeaderMenuItems.map((menuItem) => (
