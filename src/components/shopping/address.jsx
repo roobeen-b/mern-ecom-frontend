@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
 import CommonForm from "../common/form";
@@ -20,7 +21,10 @@ const initialAddressFormData = {
   notes: "",
 };
 
-const ShoppingAddress = () => {
+const ShoppingAddress = ({
+  currentSelectedAddress,
+  setCurrentSelectedAddress,
+}) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { addressList } = useSelector((state) => state.shopAddress);
@@ -110,6 +114,8 @@ const ShoppingAddress = () => {
               addressInfo={address}
               handleEditAddress={handleEditAddress}
               handleDeleteAddress={handleDeleteAddress}
+              currentSelectedAddress={currentSelectedAddress}
+              setCurrentSelectedAddress={setCurrentSelectedAddress}
             />
           ))
         ) : (

@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Button } from "../ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "../ui/card";
+import { Dialog } from "../ui/dialog";
 import {
   Table,
   TableBody,
@@ -9,27 +10,26 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import { Dialog } from "../ui/dialog";
-import ShoppingOrderDetailsView from "./order-details";
+import AdminOrderDetailsView from "./order-details";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllOrdersByUser } from "@/store/shop/order-slice";
 import { formatDateTime } from "@/lib/utils";
 import { Badge } from "../ui/badge";
+import { getAllOrders } from "@/store/admin/order-slice";
 
-const ShoppingOrders = () => {
+const AdminOrders = () => {
   const dispatch = useDispatch();
-  const { user } = useSelector((state) => state.auth);
-  const { orderList } = useSelector((state) => state.shopOrder);
+  const { orderList } = useSelector((state) => state.adminOrders);
+
   const [openOrderDetailsDialog, setOpenOrderDetailsDialog] = useState(false);
 
   useEffect(() => {
-    dispatch(getAllOrdersByUser(user?.id));
+    dispatch(getAllOrders());
   }, [dispatch]);
 
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Order History</CardTitle>
+        <CardTitle>All Orders</CardTitle>
       </CardHeader>
       <CardContent>
         <Table>
@@ -72,7 +72,10 @@ const ShoppingOrders = () => {
                       open={openOrderDetailsDialog}
                       onOpenChange={setOpenOrderDetailsDialog}
                     >
-                      <ShoppingOrderDetailsView orderDetails={order} />
+                      <AdminOrderDetailsView
+                        orderDetails={order}
+                        setOpenOrderDetailsDialog={setOpenOrderDetailsDialog}
+                      />
                     </Dialog>
                   </TableCell>
                 </TableRow>
@@ -87,4 +90,4 @@ const ShoppingOrders = () => {
   );
 };
 
-export default ShoppingOrders;
+export default AdminOrders;

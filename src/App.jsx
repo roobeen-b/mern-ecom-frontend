@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import AuthLayout from "./components/auth/layout";
 import AuthLogin from "./pages/auth/login";
 import AuthRegister from "./pages/auth/register";
@@ -19,6 +19,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
 import Loading from "./components/common/Loading";
+import PaypalReturn from "./pages/shopping/paypal-return";
+import PaypalPaymentSuccessPage from "./pages/shopping/paypal-success";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -35,6 +37,7 @@ function App() {
   return (
     <div className="flex flex-col overflow-hidden bg-white">
       <Routes>
+        <Route path="/" element={<Navigate replace to="/auth/login" />} />
         <Route
           path="/auth"
           element={
@@ -71,6 +74,11 @@ function App() {
           <Route path="account" element={<ShoppingAccount />} />
           <Route path="checkout" element={<ShoppingCheckout />} />
           <Route path="listings" element={<ShoppingListings />} />
+          <Route path="paypal-return" element={<PaypalReturn />} />
+          <Route
+            path="payment-success"
+            element={<PaypalPaymentSuccessPage />}
+          />
         </Route>
         <Route path="/unauth-page" element={<UnauthPage />} />
         <Route path="*" element={<NotFound />} />

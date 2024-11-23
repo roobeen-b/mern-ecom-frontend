@@ -95,6 +95,7 @@ function HeaderRightContent() {
               ? cartItems.items
               : []
           }
+          setOpenCartSidebar={setOpenCartSidebar}
         />
       </Sheet>
       <DropdownMenu>

@@ -7,9 +7,20 @@ const AddressCard = ({
   addressInfo,
   handleEditAddress,
   handleDeleteAddress,
+  currentSelectedAddress,
+  setCurrentSelectedAddress,
 }) => {
   return (
-    <Card>
+    <Card
+      onClick={
+        setCurrentSelectedAddress
+          ? () => setCurrentSelectedAddress(addressInfo)
+          : null
+      }
+      className={`flex flex-col justify-between ${
+        addressInfo === currentSelectedAddress ? "border border-black" : ""
+      }`}
+    >
       <CardContent className="grid p-4 gap-4">
         <Label>Address: {addressInfo?.address}</Label>
         <Label>City: {addressInfo?.city}</Label>

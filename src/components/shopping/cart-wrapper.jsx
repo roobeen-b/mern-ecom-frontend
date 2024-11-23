@@ -1,9 +1,12 @@
 /* eslint-disable react/prop-types */
+import { useNavigate } from "react-router-dom";
 import { Button } from "../ui/button";
 import { SheetContent, SheetHeader, SheetTitle } from "../ui/sheet";
 import CartItemContent from "./cart-item-content";
 
-const UserCartWrapper = ({ cartItems }) => {
+const UserCartWrapper = ({ cartItems, setOpenCartSidebar }) => {
+  const navigate = useNavigate();
+
   const totalCartAmount = cartItems?.reduce((acc, currentItem) => {
     return (
       acc +
@@ -34,7 +37,15 @@ const UserCartWrapper = ({ cartItems }) => {
           <span className="font-bold">${totalCartAmount}</span>
         </div>
       </div>
-      <Button className="w-full mt-6">Checkout</Button>
+      <Button
+        className="w-full mt-6"
+        onClick={() => {
+          setOpenCartSidebar(false);
+          navigate("/shopping/checkout");
+        }}
+      >
+        Checkout
+      </Button>
     </SheetContent>
   );
 };

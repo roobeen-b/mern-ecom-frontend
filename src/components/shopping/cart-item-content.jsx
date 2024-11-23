@@ -1,10 +1,10 @@
+/* eslint-disable react/prop-types */
 import { Minus, Plus, Trash } from "lucide-react";
 import { Button } from "../ui/button";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteCartItems, updateCartItemQty } from "@/store/shop/cart-slice";
 import { toast } from "@/hooks/use-toast";
 
-/* eslint-disable react/prop-types */
 const CartItemContent = ({ cartItem }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
