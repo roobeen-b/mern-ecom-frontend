@@ -8,7 +8,7 @@ import { formatDateTime } from "@/lib/utils";
 
 const ShoppingOrderDetailsView = ({ orderDetails }) => {
   const { user } = useSelector((state) => state.auth);
-  console.log(user);
+
   return (
     <DialogContent className="sm:max-w-[600px]">
       <div className="grid gap-6">
