@@ -41,6 +41,7 @@ const ShoppingListings = () => {
   );
 
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shopCart);
 
   const [sort, setSort] = useState(null);
   const [filters, setFilters] = useState({});
@@ -105,7 +106,19 @@ const ShoppingListings = () => {
     );
   }
 
-  function handleAddToCart(currentProductId) {
+  function handleAddToCart(currentProductId, currentProductTotalStock) {
+    const currentProductTotalCartQuantity = cartItems?.items?.find(
+      (item) => item.productId === currentProductId
+    )?.quantity;
+
+    if (currentProductTotalCartQuantity >= currentProductTotalStock) {
+      toast({
+        title: `Only ${currentProductTotalStock} items can be added for this product`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     dispatch(
       addToCart({
         userId: user?.id,
@@ -121,7 +134,7 @@ const ShoppingListings = () => {
       }
     });
   }
-
+  console.log(cartItems);
   return (
     <div className="grid grid-cols-1 md:grid-cols-[200px_1fr] gap-6 p-4 md:p-6">
       <ProductFilter filters={filters} handleFilter={handleFilter} />

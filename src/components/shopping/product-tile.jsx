@@ -78,7 +78,7 @@ const ShoppingProductTile = ({
         ) : (
           <Button
             className="w-full"
-            onClick={() => handleAddToCart(product?._id)}
+            onClick={() => handleAddToCart(product?._id, product?.totalStock)}
           >
             Add to cart
           </Button>

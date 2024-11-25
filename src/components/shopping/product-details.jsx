@@ -13,8 +13,21 @@ import { toast } from "@/hooks/use-toast";
 const ShoppingProductDetails = ({ open, setOpen, productDetails }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { cartItems } = useSelector((state) => state.shopCart);
 
-  function handleAddToCart(currentProductId) {
+  function handleAddToCart(currentProductId, currentProductTotalStock) {
+    const currentProductTotalCartQuantity = cartItems?.items?.find(
+      (item) => item.productId === currentProductId
+    )?.quantity;
+
+    if (currentProductTotalCartQuantity >= currentProductTotalStock) {
+      toast({
+        title: `Only ${currentProductTotalStock} items can be added for this product`,
+        variant: "destructive",
+      });
+      return;
+    }
+
     dispatch(
       addToCart({
         userId: user?.id,
@@ -79,7 +92,12 @@ const ShoppingProductDetails = ({ open, setOpen, productDetails }) => {
             ) : (
               <Button
                 className="w-full"
-                onClick={() => handleAddToCart(productDetails?._id)}
+                onClick={() =>
+                  handleAddToCart(
+                    productDetails?._id,
+                    productDetails?.totalStock
+                  )
+                }
               >
                 Add to Cart
               </Button>

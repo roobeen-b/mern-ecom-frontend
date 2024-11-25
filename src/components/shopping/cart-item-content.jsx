@@ -8,8 +8,23 @@ import { toast } from "@/hooks/use-toast";
 const CartItemContent = ({ cartItem }) => {
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
+  const { productList } = useSelector((state) => state.shopProducts);
 
   function handleUpdateQuantity(cartItem, updateType) {
+    if (updateType === "plus") {
+      const currentProductTotalStock = productList?.find(
+        (product) => product._id === cartItem?.productId
+      )?.totalStock;
+
+      if (cartItem?.quantity >= currentProductTotalStock) {
+        toast({
+          title: `Only ${currentProductTotalStock} items can be added for this product`,
+          variant: "destructive",
+        });
+        return;
+      }
+    }
+
     dispatch(
       updateCartItemQty({
         userId: user?.id,
