@@ -47,7 +47,9 @@ const ShoppingListings = () => {
   const [openProductDetailsDialog, setOpenProductDetailsDialog] =
     useState(false);
 
-  const [, setSearchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const categorySearchParams = searchParams.get("category");
 
   useEffect(() => {
     if (filters !== null && sort !== null) {
@@ -88,7 +90,7 @@ const ShoppingListings = () => {
   useEffect(() => {
     setSort("price-lowtohigh");
     setFilters(JSON.parse(sessionStorage.getItem("filters")) || {});
-  }, []);
+  }, [categorySearchParams]);
 
   useEffect(() => {
     if (filters && Object.keys(filters).length > 0) {

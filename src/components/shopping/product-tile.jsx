@@ -17,8 +17,29 @@ const ShoppingProductTile = ({
             alt={product?.title}
             className="w-full h-[150px] object-contain rounded-t-lg hover:scale-125 transition ease-out"
           />
-          {product?.salePrice > 0 ? (
-            <Badge className="absolute top-2 left-2 bg-red-500 hover:bg-red-600">
+          {product?.totalStock === 0 ? (
+            <Badge
+              className={`absolute top-2 ${
+                product?.salePrice > 0 && product?.totalStock != 0
+                  ? "left-14"
+                  : "left-2"
+              }  bg-red-500 hover:bg-red-600`}
+            >
+              Out of stock
+            </Badge>
+          ) : product?.totalStock <= 10 ? (
+            <Badge
+              className={`absolute top-2 ${
+                product?.salePrice > 0 && product?.totalStock != 0
+                  ? "left-14"
+                  : "left-2"
+              } bg-red-500 hover:bg-red-600`}
+            >
+              {`Only ${product?.totalStock} items left`}
+            </Badge>
+          ) : null}
+          {product?.salePrice > 0 && product?.totalStock != 0 ? (
+            <Badge className="absolute top-2 left-2 bg-yellow-500 hover:bg-red-600">
               Sale
             </Badge>
           ) : null}
