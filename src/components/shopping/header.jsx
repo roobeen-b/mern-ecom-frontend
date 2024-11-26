@@ -1,4 +1,11 @@
-import { House, LogOut, Menu, ShoppingCart, UserCog } from "lucide-react";
+import {
+  House,
+  LogOut,
+  Menu,
+  SearchIcon,
+  ShoppingCart,
+  UserCog,
+} from "lucide-react";
 import {
   Link,
   useLocation,
@@ -86,6 +93,14 @@ function HeaderRightContent() {
 
   return (
     <div className="flex flex-col lg:flex-row lg:items-center gap-4">
+      <Button
+        variant="outline"
+        size="icon"
+        onClick={() => navigate("/shopping/search")}
+      >
+        <SearchIcon className="h-6 w-6" />
+        <span className="sr-only">Search for products</span>
+      </Button>
       <Button
         variant="outline"
         size="icon"
