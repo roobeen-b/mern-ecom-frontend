@@ -8,6 +8,7 @@ import shopAddressReducer from "./shop/address-slice";
 import shopOrderReducer from "./shop/order-slice";
 import searchProductsReducer from "./shop/search-slice";
 import productReviewReducer from "./shop/review-slice";
+import commonFeatureImagesReducer from "./common-slice/index";
 
 const store = configureStore({
   reducer: {
@@ -20,6 +21,7 @@ const store = configureStore({
     shopOrder: shopOrderReducer,
     searchProducts: searchProductsReducer,
     productReviews: productReviewReducer,
+    commonFeatureImages: commonFeatureImagesReducer,
   },
 });
 
