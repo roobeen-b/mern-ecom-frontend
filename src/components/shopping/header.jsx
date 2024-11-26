@@ -29,7 +29,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser } from "@/store/auth-slice";
 import { toast } from "@/hooks/use-toast";
 import UserCartWrapper from "./cart-wrapper";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { fetchCartItems } from "@/store/shop/cart-slice";
 
 function MenuItems() {
@@ -87,6 +87,15 @@ function HeaderRightContent() {
     });
   }
 
+  const totalCartItemQuantity = useMemo(
+    () =>
+      cartItems &&
+      cartItems.items &&
+      cartItems.items.length > 0 &&
+      cartItems.items.reduce((sum, item) => sum + item.quantity, 0),
+    [cartItems]
+  );
+
   useEffect(() => {
     dispatch(fetchCartItems(user?.id));
   }, [dispatch]);
@@ -108,6 +117,9 @@ function HeaderRightContent() {
         onClick={() => setOpenCartSidebar(true)}
       >
         <ShoppingCart className="w-6 h-6" />
+        <span className="absolute -top-2 -right-1 px-1 rounded-full bg-yellow-500 text-primary-foreground text-xs">
+          {totalCartItemQuantity}
+        </span>
         <span className="sr-only">User cart</span>
       </Button>
       <Sheet

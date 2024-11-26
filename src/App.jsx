@@ -22,6 +22,7 @@ import Loading from "./components/common/Loading";
 import PaypalReturn from "./pages/shopping/paypal-return";
 import PaypalPaymentSuccessPage from "./pages/shopping/paypal-success";
 import Search from "./pages/shopping/search";
+import PaypalCancelPage from "./pages/shopping/paypal-cancel";
 
 function App() {
   const { isAuthenticated, user, isLoading } = useSelector(
@@ -76,6 +77,7 @@ function App() {
           <Route path="checkout" element={<ShoppingCheckout />} />
           <Route path="listings" element={<ShoppingListings />} />
           <Route path="paypal-return" element={<PaypalReturn />} />
+          <Route path="paypal-cancel" element={<PaypalCancelPage />} />
           <Route
             path="payment-success"
             element={<PaypalPaymentSuccessPage />}
