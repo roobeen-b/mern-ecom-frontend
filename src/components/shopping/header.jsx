@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   House,
   LogOut,
@@ -26,7 +27,7 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useDispatch, useSelector } from "react-redux";
-import { logoutUser } from "@/store/auth-slice";
+import { logoutUser, resetTokenAndCredentials } from "@/store/auth-slice";
 import { toast } from "@/hooks/use-toast";
 import UserCartWrapper from "./cart-wrapper";
 import { useEffect, useMemo, useState } from "react";
@@ -78,13 +79,17 @@ function HeaderRightContent() {
   const [openCartSidebar, setOpenCartSidebar] = useState(false);
 
   function handleLogout() {
-    dispatch(logoutUser()).then((res) => {
-      if (res?.payload?.success) {
-        toast({
-          title: res.payload.message,
-        });
-      }
-    });
+    // dispatch(logoutUser()).then((res) => {
+    //   if (res?.payload?.success) {
+    //     toast({
+    //       title: res.payload.message,
+    //     });
+    //   }
+    // });
+
+    dispatch(resetTokenAndCredentials());
+    sessionStorage.clear();
+    navigate("/auth/login");
   }
 
   const totalCartItemQuantity = useMemo(
